@@ -17,7 +17,7 @@ export const CartScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-  const addToCartHandler = async (product, qty) => {
+  const addToCartHandler = (product, qty) => {
     dispatch(addToCart({ ...product, qty }));
   };
 
@@ -97,7 +97,7 @@ export const CartScreen = () => {
                 type="button"
                 className="btn-block"
                 disabled={cartItems.length === 0}
-                onClick={checkoutHandler()}
+                onClick={checkoutHandler}
               >
                 Proceed To Checkout
               </Button>
