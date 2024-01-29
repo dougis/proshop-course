@@ -1,0 +1,15 @@
+meta {
+  name: Update to paid
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseURL}}/orders/{{orderId}}/pay
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  orderId: 1
+}

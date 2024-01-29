@@ -4,6 +4,7 @@ const users = [
   {
     name: "Admin User",
     email: "admin@email.com",
+    // file deepcode ignore HardcodedSecret: Test data load file, will not be used in production
     password: bcrypt.hashSync("123456", 10),
     isAdmin: true,
   },

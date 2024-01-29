@@ -1,0 +1,15 @@
+meta {
+  name: Update to delivered
+  type: http
+  seq: 1
+}
+
+put {
+  url: {{baseURL}}/orders/{{orderId}}/deliver
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  orderId: 1
+}

@@ -1,11 +1,11 @@
 meta {
-  name: Get Profile
+  name: Add Order
   type: http
   seq: 2
 }
 
-get {
-  url: {{baseURL}}/users/profile
+post {
+  url: {{baseURL}}/orders
   body: formUrlEncoded
   auth: none
 }

@@ -5,7 +5,11 @@ meta {
 }
 
 get {
-  url: {{baseURL}}/products/658cc5a664cb56a8cc5ed83f
+  url: {{baseURL}}/products/{{productId}}
   body: none
   auth: none
+}
+
+vars:pre-request {
+  productId: 658cc5a664cb56a8cc5ed83f
 }
