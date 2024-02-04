@@ -8,6 +8,7 @@ import Loader from "../components/Loader";
 import { useCreateOrderMutation } from "../slices/ordersApiSlice";
 import { clearCartItems } from "../slices/cartSlice";
 import CheckoutSteps from "../components/CheckoutSteps";
+import { ORDERS_URL } from "../constants";
 const PlaceOrderScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const PlaceOrderScreen = () => {
       }).unwrap();
       dispatch(clearCartItems());
       toast.success("Order placed successfully");
-      navigate(`/order/${res._id}`);
+      navigate(`${ORDERS_URL}/${res._id}`);
     } catch (error) {
       toast.error(error?.data?.message || error?.error);
     }
