@@ -1,21 +1,40 @@
 import { LinkContainer } from "react-router-bootstrap";
+import { Link } from "react-router-dom";
 import { Table, Button, Row, Col } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import {
   useGetProductsQuery,
   useCreateProductMutation,
+  useDeleteProductMutation,
 } from "../../slices/productsApiSlice";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import { toast } from "react-toastify";
 
 const ProductListScreen = () => {
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
   const [createProduct, { isLoading: createLoading, error: createError }] =
     useCreateProductMutation();
+  const [deleteProduct, { isLoading: loadingDelete }] =
+    useDeleteProductMutation();
 
-  const deleteHandler = (productId) => {
-    console.log("deleting product ID", productId);
+  const deleteHandler = async (productId) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      try {
+        await deleteProduct(productId);
+        toast.success("Product deleted");
+        refetch();
+      } catch (err) {
+        toast.error(
+          err?.data?.message ||
+            err.error ||
+            err.message ||
+            createError?.data?.message ||
+            createError?.message ||
+            "An error occurred"
+        );
+      }
+    }
   };
 
   const createProductHandler = async () => {
@@ -24,7 +43,12 @@ const ProductListScreen = () => {
         await createProduct();
       } catch (err) {
         toast.error(
-          err?.data?.message || err.error || err.message || "An error occurred"
+          err?.data?.message ||
+            err.error ||
+            err.message ||
+            createError?.data?.message ||
+            createError?.message ||
+            "An error occurred"
         );
       }
     }
@@ -43,6 +67,7 @@ const ProductListScreen = () => {
         </Col>
       </Row>
       {createLoading && <Loader />}
+      {loadingDelete && <Loader />}
       {isLoading ? (
         <Loader />
       ) : error ? (
@@ -63,8 +88,12 @@ const ProductListScreen = () => {
             <tbody>
               {products.map((product) => (
                 <tr key={product._id}>
-                  <td>{product._id}</td>
-                  <td>{product.name}</td>
+                  <td>
+                    <Link to={`/product/${product._id}`}>{product._id}</Link>
+                  </td>
+                  <td>
+                    <Link to={`/product/${product._id}`}>{product.name}</Link>
+                  </td>
                   <td>${product.price}</td>
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
